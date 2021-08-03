@@ -6,8 +6,8 @@ const User = require('../models/user');
 //SIGN UP - POST
 router.post('/signup', async (req,res, next) =>{
     try{
-        // const password = await bcrypt.hash(req.body.password, 10);
-        const newUser = await User.create({ email: req.body.email, password:req.body.password})
+        const password = await bcrypt.hash(req.body.password, 10);
+        const newUser = await User.create({ email: req.body.email, password})
         res.status(201).json(newUser)
     }catch(error){
         return next(error)

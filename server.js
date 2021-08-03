@@ -6,7 +6,7 @@ const express = require('express');
 const cors = require ('cors')
 const app = express();
 const mongoose = require('mongoose');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 //=============================================================================
 // Middleware

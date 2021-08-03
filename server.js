@@ -42,7 +42,8 @@ db.on( 'open' , ()=>{
 
 const users = require('./controllers/users')
 app.use('/api', users)
-
+const text = require('./controllers/texts')
+app.use('/text', text)
 //=============================================================================
 // START SERVER
 //=============================================================================

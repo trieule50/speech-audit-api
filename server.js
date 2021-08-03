@@ -3,6 +3,7 @@
 //=============================================================================
 require('dotenv').config();
 const express = require('express');
+const cors = require ('cors')
 const app = express();
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,10 @@ const PORT = process.env.PORT || 3000;
 //=============================================================================
 // Middleware
 //=============================================================================
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //=============================================================================
 // Mongo Atlas Connection
@@ -31,6 +36,12 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 db.on( 'open' , ()=>{
   console.log('💬 connection made!');
 });
+//=============================================================================
+// Routes
+//=============================================================================
+
+const users = require('./controllers/users')
+app.use('/api', users)
 
 //=============================================================================
 // START SERVER

@@ -8,7 +8,8 @@ const userSchema = new Mongoose.Schema(
             unique: true,
         },
         password: {
-
+            type: String,
+            required: true,
         },
     }, 
     {

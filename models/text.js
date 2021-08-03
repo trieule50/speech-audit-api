@@ -6,17 +6,17 @@ const textSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        owner: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
+        // owner: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'User',
+        //     required: true
+        // },
     }, 
     {
         timestamps: true
     }
 )
 
-const Text = mongoose.model('Text', userSchema);
+const Text = mongoose.model('Text', textSchema);
 
 module.exports = Text;

@@ -41,7 +41,7 @@ db.on( 'open' , ()=>{
 //=============================================================================
 
 const users = require('./controllers/users')
-app.use('/api', users)
+app.use('/user', users)
 const text = require('./controllers/texts')
 app.use('/text', text)
 //=============================================================================

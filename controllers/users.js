@@ -24,9 +24,9 @@ router.post('/login', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/login/:id', async (req,res) =>{
+router.post('/login/:id', async (req,res) =>{
     try{
-        const user = await User.findById(req.params.id)
+        const user = await User.findOne({ email: req.body.email })
         res.json(user)
     }catch(error){
         console.log(error)

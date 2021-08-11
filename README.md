@@ -18,6 +18,8 @@ Has there ever been a situation where you were unsure how a sentence or paragrap
 - IBM Watson
 
 ## Learning Experience
+One common theme, I found myself learning during this project is that code what makes sense to you. Understanding the documentation is a big part of developing but once understood, use what is most comfortable to you and the application will work.
+
 
 ## Setting Up Project
 One key task for setting up the project is reading and understanding IBM's Speech to Text and Tone Analysis documentation. (Links under References). IBM's API could be calls by either cloud functionality or client side, for this project I chose to create a server to make this call. The reason being that I wanted to parse data in the application. 
@@ -99,7 +101,7 @@ router.post('/login/:id', async (req,res) =>{
 })
 ```
 #### Dynamic API Calls / Creating Routes
-From reading the [IBM Watson - Tone Analysis](https://cloud.ibm.com/apidocs/tone-analyzer?code=node#data-handling) documentation, a post route was creating for the API request. The response sends 2 tone results per call. 
+From reading the [IBM Watson - Tone Analysis](https://cloud.ibm.com/apidocs/tone-analyzer?code=node#data-handling) documentation, a post route was created for the API request. The response sends 2 tone results per call. 
 
 ```JS
 // POST (create) 
@@ -119,6 +121,29 @@ router.post('/', (req, res) => {
 });
 ```
 
+From reading the [IBM Watson - Speech to Text](https://cloud.ibm.com/apidocs/speech-to-text?code=node) documentation, a post route was created for the API request. To read files, `<fs>` or file system was required. This route was created in the mind of the test file `<Speech_Audit_Testing.mp3>` so the keywords were modified to the test file. 
+
+```JS
+router.post('/audio', (req, res) =>{
+
+  const recognizeParams = {
+    audio: fs.createReadStream(__dirname +`/Speech_Audit_Testing.mp3`),
+    contentType: 'audio/mp3',
+    wordAlternativesThreshold: 0.9,
+    keywords: ['general', 'assembly', 'experience'],
+    keywordsThreshold: 0.5,
+  };
+  
+  speechToText.recognize(recognizeParams)
+  .then(speechRecognitionResults => {
+    res.json(JSON.stringify(speechRecognitionResults, null, 2));
+  })
+  .catch(err => {
+    console.log('error:', err);
+  });
+})
+```
+
 #### Testing Routes on Postman
 ##### Text to Tone Route Check on Postman
 ![Screen Shot 2021-08-06 at 10 23 04 AM](https://media.git.generalassemb.ly/user/36270/files/70594c00-f6a1-11eb-9dbb-3c3bfff8a35c)
@@ -129,10 +154,17 @@ router.post('/', (req, res) => {
 ##### Sign in Route Check on Postman
 ![Screen Shot 2021-08-06 at 10 32 21 AM](https://media.git.generalassemb.ly/user/36270/files/b0203380-f6a1-11eb-82f8-27615fc804b2)
 
+##### Audio Route Check on Postman - First Take
+![Screen Shot 2021-08-09 at 11 18 48 AM](https://media.git.generalassemb.ly/user/36270/files/c299a780-f903-11eb-991e-50d3747b9d2e)
 
 ## Problem Areas
+- User Authentication - One of the problem area was to grab the user information. To solve this issue, in the sign in routes, the response return the user email and the token. Then on the client side, the information is sorted in local sortage and make an API call to another post route that finds the user email. 
+
+- Getting inputting audio files - Currently, the audio route is hardcoded with the testing audio. IBM requires the file direct path. Without a third-party cloud that routes to a file path, there will be an error if API call is trying to route to the user local machine. 
  
 ## Future Directions
+- Adding a feature to add any audio files.
+- Combine the two API call to make it as steamless as possible. 
 
 ## Accomplishments
 - User Authentication Routes Functional
